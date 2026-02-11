@@ -83,14 +83,51 @@ document.querySelector(".box-p2").addEventListener(
 
 //scrollintoview function can be used to make the smooth scroll.
 
-//better way to do the same thing using event propagation
-
+//better way to do the same thing using event deligation
+//using parent elements to target child elements inside dom.
 //add event listener to a common parent of all the links.
 //determine what element orignated the event.
-
 document.querySelector(".nav_links").addEventListener("click", function (e) {
   console.log(e.target);
-  if (e.target.classList.contains("nav-item")) {
-    console.log("link");
+  e.preventDefault();
+  if (e.target.classList.contains("nav-link")) {
+    const id = e.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+    console.log(id);
   }
 });
+
+//DOM travarsing : getting elements through relitive elements of a specific element.
+let boxParent = document.querySelector(".box-p1");
+//going downwards:child
+console.log(boxParent);
+console.log(boxParent.querySelectorAll(".box")); //basically finds all the elements inside the parent
+//element relevent to this class.
+console.log(boxParent.childNodes);
+console.log(boxParent.children); //to get the direct children of element.
+boxParent.firstElementChild.style.color = "red";
+boxParent.lastElementChild.style.color = "orangered";
+
+//going upwards:parent:
+let child = document.querySelector(".box-child");
+console.log(child.parentNode);
+console.log(child.parentElement);
+//gets the closest parent element specific to the class mentioned.
+console.log(child.closest(".box-p1"));
+
+//going sideways : siblings.
+console.log(child.nextElementSibling);
+console.log(child.previousElementSibling);
+// to get all the children
+console.log(child.parentElement.children);
+//use case:
+let children = [...child.parentElement.children];
+children.forEach(function (el) {
+  if (el !== child) {
+    el.style.backgroundColor = "orangered";
+  }
+});
+
+//it can be used specify the event you want to in addEventListener where,.
+// guard clause
+// if (!clicked) return
